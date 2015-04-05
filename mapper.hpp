@@ -137,7 +137,7 @@ namespace succinct { namespace mapper {
                     unsigned char volatile_target;
                     volatile unsigned char *target = &volatile_target;
                     const unsigned char *source = reinterpret_cast<const unsigned char*>(vec.m_data);
-                    for (auto i = 0U; i < bytes; i++) {
+                    for (size_t i = 0U; i < bytes; i++) {
                         *target = *(source++);
                     }
                 }
