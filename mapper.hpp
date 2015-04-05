@@ -133,10 +133,12 @@ namespace succinct { namespace mapper {
                 size_t bytes = vec.m_size * sizeof(T);
 
                 if (m_flags & map_flags::warmup) {
-                    T foo;
-                    volatile T* bar = &foo;
-                    for (size_t i = 0; i < vec.m_size; ++i) {
-                        *bar = vec.m_data[i];
+                    // Force compiler to read every value
+                    unsigned char volatile_target;
+                    volatile unsigned char *target = &volatile_target;
+                    const unsigned char *source = reinterpret_cast<const unsigned char*>(vec.m_data);
+                    for (auto i = 0U; i < bytes; i++) {
+                        *target = *(source++);
                     }
                 }
 
